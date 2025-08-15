@@ -1,0 +1,33 @@
+---
+title: TSC Documentation
+description: Get started building your docs site with Starlight.
+template: splash
+hero:
+  tagline: Your step‑by‑step manual for building on CSIT’s chosen one‑stop frontend platform, bringing together all analysis products to create a streamlined, impactful experience for analysts.
+  actions:
+    - text: Get started
+      link: /getting-started/01-rules-and-regulations/
+      icon: right-arrow
+---
+
+import { Card, CardGrid, Badge } from "@astrojs/starlight/components";
+
+## Onboarded Applications
+
+<CardGrid>
+  <Card title="Federated Search" icon="seti:code-search">
+    Providing first class search service within our Data Hub.
+  </Card>
+  <Card title="Workspace" icon="add-document">
+    Collaborate and brainstorm issues and people within our very own Workspace.
+  </Card>
+  <Card title="Digital Production" icon="seti:word">
+    Digitalize your products.
+  </Card>
+  <Card title="Entity Dossier (TED)" icon="telegram">
+    One stop place for all your Entity needs.
+  </Card>
+  <Card title={"Raw Management (TRAM)"} icon="blueSky">
+    <Badge text="Coming soon!" variant="caution" />
+  </Card>
+</CardGrid>

@@ -1,0 +1,52 @@
+---
+title: Project structure
+description: Project structure
+---
+
+import { FileTree } from "@astrojs/starlight/components";
+
+The mono-repository consists of 2 key folders
+
+`apps` 
+
+All the runnable applications lives inside this folder. 
+
+`libs`
+
+All the common libraries such as components, reusable hooks and API calls lives inside this folder.
+
+<FileTree>
+- **apps**
+  - entity-dossier
+  - search
+  - workspace
+  - digital-production
+- **libs**
+  - tsc-components
+  - tsc-utils
+- package.json
+- tsconfig.base.json
+- .gitignore
+- pnpm-lock.yaml
+- README.md
+- nx.json
+- biome.json
+</FileTree>
+
+## React Application Structure
+
+<FileTree>
+- apps
+  - **entity-dossier**
+    - src
+      - routes
+        - __root.tsx
+    - router.tsx
+    - routeTree.gen.ts
+    - package.json
+  - search
+  - workspace
+  - digital-production
+- libs
+- package.json
+</FileTree>

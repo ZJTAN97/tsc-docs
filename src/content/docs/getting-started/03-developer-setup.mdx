@@ -1,0 +1,69 @@
+---
+title: Setup
+---
+
+import { Code, Badge } from "@astrojs/starlight/components";
+
+## 1. Clone Repository
+
+You can clone the repository from this [link](gitlab-link) using
+
+- SSH when you set up your gitlab API key
+- HTTPS using your redwood account login.
+
+<Code code={`git clone https://gitlab-link`} lang="bash" title="bash" />
+
+## 2. Development Environment
+
+You will have to minimally install the following to get started. Click on the links to navigate to the right place in artifactory to get the necesary software.
+
+1. [Visual Studio Code]()
+2. [NodeJS]() Minimally `v20.13.x`
+3. [Git]()
+
+Once you have the above installed, setup `PNPM`
+
+<Code code={`npm i -g pnpm`} lang="bash" title="bash" />
+
+Ensure that the installed version is at least `10.13.x`
+
+<Code code={`pnpm --version`} lang="bash" title="bash" />
+
+The following are optional, but could potentially help in your development experience.
+
+- GUI for managing Git
+  - [Github Desktop]()
+  - [Git Extensions]()
+- [Docker]()
+- [Kubectl]()
+- [Helm]()
+- [IntelliJ]()
+
+## 3. Setting up Visual Studio Code
+
+Install the required extensions, you may have noticed the extensions suggestions when you open VSCode within the project.
+
+Either click on the install button or make sure to install the following extensions yourself. This step is highly recommended to ensure optimal developer experience.
+
+1. Biome
+2. CSS Variable Autocomplete
+3. GitLens
+4. NX Console
+5. Pretty TypeScript Errors
+6. Playwright Test for VSCode
+
+Open up the project with Visual Studio Code and using the terminal of your choice, run the following command
+
+<Code code={`pnpm install`} lang="bash" title="bash" />
+
+This will install all the required dependencies required to run any node based projects within the mono-repository, excluding [`common-service`](https://link-to-it).
+
+## 4. Starting a Project
+
+Please refer to the following documentations for a full list of commands and actions you can run on for a specific project.
+
+- [Entity Dossier]()
+- [Digital Production]()
+- [Search]()
+- [Workspace]()
+- [Raw Management | <Badge text="Coming Soon!" variant="note" />]()

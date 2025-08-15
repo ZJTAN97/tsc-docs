@@ -1,0 +1,22 @@
+---
+title: Entity Dossier
+---
+
+import { Steps } from "@astrojs/starlight/components";
+
+<Steps>
+
+1. Create `.env.local` and change the following values if you would like to proxy to a local backend server:
+
+   ```.env
+   CES_CORE_LOCAL=http://localhost:8080
+   CES_SEARCH_LOCAL=http://localhost:8081
+   ```
+
+2. Run the following command to start Development Server
+
+    ```bash
+    pnpm nx run entity-dossier:serve
+    ```
+
+</Steps>
