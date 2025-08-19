@@ -1,0 +1,352 @@
+---
+title: Creating new project
+---
+
+import { FileTree, Code } from "@astrojs/starlight/components";
+
+This guide aims to help teams and developers to get started with creating a new project within this mono-repository.
+
+:::note
+This guide assumes that you have already cloned our repository and also setup `pnpm` as your main package manager.
+:::
+
+## 1. Generate a new React Application using NX generator
+
+Using NX React Generator, generate your application under `apps/`
+
+<FileTree>
+  - **apps** 
+    - entity-dossier 
+    - search 
+    - workspace 
+    - digital-production -
+    **generate your new app here** 
+  - libs 
+    - tsc-components 
+    - tsc-utils 
+  - package.json 
+  - tsconfig.base.json 
+  - .gitignore 
+  - pnpm-lock.yaml 
+  - README.md 
+  -nx.json 
+  - biome.json
+</FileTree>
+
+You may use the following command
+
+```bash
+pnpm nx g @nx/react:app apps/<YOUR_APP_NAME> --bundler=vite --routing=false --linter=none --unitTestRunner=vitest --compiler=swc --e2eTestRunner=none
+```
+
+The command basically sets the following:
+
+- Bundler: `Vite`
+- Unit Test Runner: `Vitest`
+- Compiler: `SWC (Speedy Web Compiler)`
+
+Linter and E2E Tests are set to none, please refer to the docs for [Biome]() and [Playwright E2E]() for more information on how to set it up.
+
+Upon running the commands, you will end up with the following structure
+
+<FileTree>
+  - **apps** 
+    - entity-dossier 
+    - search 
+    - workspace 
+    - digital-production 
+    - YOUR_CREATED_APP 
+      - public 
+      - src 
+      - index.html 
+      - tsconfig.app.json
+      - tsconfig.json 
+      - tsconfig.spec.json 
+      - vite.config.ts 
+- libs
+  - tsc-components 
+  - tsc-utils 
+- package.json 
+- tsconfig.base.json 
+- .gitignore
+- pnpm-lock.yaml 
+- README.md 
+- nx.json 
+- biome.json
+</FileTree>
+
+## 2. Vite Configurations
+
+Modify your vite configurations with the following changes:
+
+1. Configure the generated `vite.config.ts` to include sensible defaults provided by the TSC Frontend Platform Team
+
+2. Add the `TanStackRouterVite` plugin from `@tanstack/router-plugin/vite`
+
+3. Point your developmetn server to your desired port number. Please choose something that will not conflict with other teams.
+
+```ts title="vite.config.ts" ins={2} ins={5} ins={9} ins={22} ins={26} ins={29-34}
+import path from "path";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { defineConfig, loadEnv } from "vite";
+import { mergeConfig } from "vite";
+import baseViteConfig from "../../config/vite.base.app.config";
+
+export default defineConfig((config) => {
+
+  const baseConfig = baseViteConfig(config);
+
+  return mergeConfig(
+    baseConfig,
+    defineConfig({
+      root: __dirname,
+      cacheDir: "../../../node_modules/.vite/apps/<your_app>",
+
+      server: {
+        open: true,
+        fs: {
+          strict: false,
+        },
+        port: // YOUR DESIRED PORT NUMBER
+      },
+
+      preview: {
+        port: // YOUR DESIRED PORT NUMBER,
+      },
+
+      plugins: [
+        TanStackRouterVite({
+          routeFileIgnorePattern: ".((css|const).ts)",
+          routesDirectory: path.join(__dirname, "src", "routes"),
+          generatedRouteTree: path.join(__dirname, "src", "routeTree.gen.ts"),
+          routeFileIgnorePrefix: "-",
+        }),
+      ],
+    })
+  );
+});
+```
+
+## 3. Configure Vite Config `server`
+
+Since TSC follows a vertical Micro Frontend approach, all applications are separated by a specific sub-path. You will need to reach out to the platform team and your GL to find out what subpath suits your product the most.
+
+Within your `vite.config.ts`, configure the following under the `server` field
+
+```ts title="vite.config.ts" ins={27}
+import path from "path";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { defineConfig, loadEnv } from "vite";
+import { mergeConfig } from "vite";
+import baseViteConfig from "../../config/vite.base.app.config";
+
+export default defineConfig((config) => {
+  const baseConfig = baseViteConfig(config);
+
+  return mergeConfig(
+    baseConfig,
+    defineConfig({
+      root: __dirname,
+      cacheDir: "../../../node_modules/.vite/apps/<your_app>",
+
+      server: {
+        open: true,
+        fs: {
+          strict: false,
+        },
+      },
+
+      preview: {
+        port: 5174,
+      },
+
+     base: "/your-team-subpath"
+
+      plugins: [
+        TanStackRouterVite({
+          routeFileIgnorePattern: ".((css|const).ts)",
+          routesDirectory: path.join(__dirname, "src", "routes"),
+          generatedRouteTree: path.join(__dirname, "src", "routeTree.gen.ts"),
+          routeFileIgnorePrefix: "-",
+        }),
+      ],
+    })
+  );
+});
+```
+
+## 4. Configure Linting
+
+```json title="biome.json"
+{
+  "$schema": "https://biomejs.dev/schemas/2.1.1/schema.json",
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 80,
+    "attributePosition": "auto"
+  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "correctness": {
+        "noUnusedVariables": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {}
+        },
+        "noUnusedImports": "warn",
+        "useExhaustiveDependencies": "off"
+      }
+    }
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!**/.nx",
+      "!**/.nx/**",
+      "!**/dist",
+      "!**/dist/**",
+      "!**/coverage",
+      "!**/coverage/**",
+      "!**/routeTree.gen.ts",
+      "!**/.tanstack/**",
+      "!**/.nitro",
+      "!**/.output"
+    ]
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "es5",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "double",
+      "attributePosition": "auto"
+    }
+  },
+  "css": {
+    "linter": {
+      "enabled": false
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "warn",
+            "noUnusedVariables": "warn",
+            "useExhaustiveDependencies": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "warn"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.ts", "**/*.tsx"]
+    },
+    {
+      "includes": ["**/*.js", "**/*.jsx"]
+    },
+    {
+      "includes": [
+        "**/*.spec.ts",
+        "**/*.spec.tsx",
+        "**/*.spec.js",
+        "**/*.spec.jsx"
+      ]
+    }
+  ]
+}
+```
+
+## 5. Configure Vitest
+
+```ts title="vite.config.ts" ins={29}
+
+import path from "path";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import { defineConfig, loadEnv } from "vite";
+import { mergeConfig } from "vite";
+import baseViteConfig from "../../config/vite.base.app.config";
+
+export default defineConfig((config) => {
+  const baseConfig = baseViteConfig(config);
+
+  return mergeConfig(
+    baseConfig,
+    defineConfig({
+      root: __dirname,
+      cacheDir: "../../../node_modules/.vite/apps/<your_app>",
+
+      server: {
+        open: true,
+        fs: {
+          strict: false,
+        },
+      },
+
+      preview: {
+        port: 5174,
+      },
+
+     base: "/your-team-subpath"
+
+     test: {},
+
+      plugins: [
+        TanStackRouterVite({
+          routeFileIgnorePattern: ".((css|const).ts)",
+          routesDirectory: path.join(__dirname, "src", "routes"),
+          generatedRouteTree: path.join(__dirname, "src", "routeTree.gen.ts"),
+          routeFileIgnorePrefix: "-",
+        }),
+      ],
+    })
+  );
+});
+
+```
+
+## 6. Configure Playwright Test
+
+```ts title="playwright.config.ts"
+
+```
+
+## 7. Configure commands at `package.json`
+
+By properly configuring the commands, NX can automatically infer the tasks available.
+
+```json title="package.json" ins={7-10}
+{
+  "name": "your-project",
+  "license": "MIT",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "lint": "biome lint",
+    "lint:fix": "biome lint --fix",
+  },
+  "dependencies": {
+   // ...
+  },
+  "devDependencies": {
+  // ...
+  }
+}
+```

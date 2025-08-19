@@ -67,3 +67,16 @@ Please refer to the following documentations for a full list of commands and act
 - [Search]()
 - [Workspace]()
 - [Raw Management | <Badge text="Coming Soon!" variant="note" />]()
+
+## 5. (Optional) Configuring your Node to point to Artifactory with SSL setup
+
+Because we are working on-premise with our own NPM artifactory, we will need to configure our package installers such as `npm` and `pnpm` to point towards our own artifactory.
+
+Run the following commands
+
+```bash
+EXPORT ...
+EXPORT ...
+```
+
+This will ensure that your package installers can point to the correct artifactory even if its ran outside of this mono-repository project.

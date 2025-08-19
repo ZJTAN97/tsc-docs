@@ -3,3 +3,110 @@
 title: Deployment setup
 
 ---
+
+This portion aims to provide a concise way to shoot your application to production within TSC.
+
+Please read the following relevant part of documentation to find out more on certain components/concepts.
+
+- Doc 1
+- Doc 2
+
+This guide assumes that you have basic working knowledge of Gitlab Pipeline, Kubernetes, Nginx and Docker.
+
+It also assumes that you have worked with Rapid before.
+
+## 1. Setup Nginx Configuration
+
+```nginx
+
+server {
+
+  listen 80;
+  server_name localhost;
+
+  # Serve react assets
+  location /workspaces {
+    alias /usr/share/nginx/workspaces;
+    index index.html index.htm;
+    try_files $uri $uri/ /index.html =404;
+  }
+
+  # Proxy to backend services behind RAPID
+  location /api/core {
+    rewrite ^/api/core(.*)$ $1 break;
+    proxy_pass
+    proxy_redirect off;
+  }
+
+  # Proxy to backend services behind Authms
+  location /api/workspace {
+    rewrite ^/api/workspace(.*)$ $1 break;
+    proxy_pass
+  }
+}
+
+
+```
+
+## 2. Setup Kubernetes manifest files
+
+`service.yaml`
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: your_app-service
+  namespace: tsc
+spec:
+  selector:
+    app: your_app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
+
+`deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: your_app_name
+  namespace: tsc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: your_app
+  template:
+    metadata:
+      labels:
+        app: your_app
+    spec:
+      containers:
+        - name: your_app
+          image: harbor/your_app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+```
+
+## 3. Update Kubernetes Nginx Ingress
+
+`ingress.yaml`
+
+```yaml
+...
+- path: /your-sub-path
+  pathType: Prefix
+  backend:
+    service:
+      name: your_app-service
+      port:
+        number: 80
+```
+
+
+## 4. Update Gitlab Pipeline
