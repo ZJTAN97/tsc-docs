@@ -1,3 +1,45 @@
 ---
 title: Playwright
 ---
+
+## Setup
+
+1. Install Playwright VSCode Extension
+
+2. Install Test Browser
+
+```bash
+pnpm playwright install chromium
+```
+
+Alternatively you can use extension's command in VSCode
+- Use the shortcut `Ctrl + Shift + P` or under `View -> Command Palette`
+- Type `Install Playwright Browsers`, and select chromium
+
+## Running Tests
+
+With extension installed, you should see a green "Play Button" beside your test suites.
+
+
+## On-premise update of Playwright versions
+
+:::info
+For maintainers or people who would like to go above and beyond.
+:::
+
+Before updating the playwright npm package, we need to update the following artifacts
+
+Docker image
+
+- `mcr.microsoft.com/playwright`
+
+VSCode Extension
+
+- should be automatically updated by software mirror
+
+Browser binaries
+
+- ```Ìnclude binary links```
+- Bring in the chromium and ffmpeg binaries
+
+## Writing E2E Tests

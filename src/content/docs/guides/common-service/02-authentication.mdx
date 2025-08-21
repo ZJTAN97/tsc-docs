@@ -1,0 +1,42 @@
+---
+title: Authentication
+---
+
+This handles all common authentication and authorization use-cases used within the TSC platform.
+
+These are the main APIs that TSC common service proxies to
+
+1. Rapid
+2. Keycloak Wrapper
+3. AuthMS
+4. User & Groups
+
+## Why the need for Auth Service?
+
+There is a Frontend (Client Side Rendering) application limitation to retrieve current authenticated user.
+
+:::note
+PS: I (Zhi Jie) may not be the best one at explaining this, its based on the resources from the past and consulting other engineers.
+:::
+
+Once we publish a Frontend and Backend application onto RAPID, it will be a seamless experience for the Frontend to hit the Backend. This is a given as long as we set the `permissions_requested` correctly on the Frontend Rapid Configurations.
+
+This problem is however on the client side, we are unable to do the following
+
+1. Retrieve the access token (JWT)
+2. Decode the token and retrieve the current user information.
+
+To do that, the easiest way is to have a server termed as a BFF (Backend For Frontend) to handle the retrieval and decoding of token.
+
+On the Frontend Client, the browser will then reach out via REST API to the BFF and retrieve the necessary authentication information.
+
+## Consolidated Entry Point for Common Endpoints
+
+As mentioned in the limitations, Frontend client cannot retrieve the token, but is able to easily forward the said token to Backend applications as long as they are published onto RAPID with the correct `permissions_requested` set.
+
+We can then have the backend application proxy to services such as keycloak wrapper to retrieve details such as
+
+- Virtual teams
+- Realm roles
+- Permissions
+- Groups
