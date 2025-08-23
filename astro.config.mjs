@@ -2,12 +2,13 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightAutoSidebar from "starlight-auto-sidebar";
+import starlightThemeNext from "starlight-theme-next";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     starlight({
-      plugins: [starlightAutoSidebar()],
+      plugins: [starlightThemeNext(), starlightAutoSidebar()],
       customCss: ["./src/content/docs/index.css"],
       title: "TSC Docs",
       social: [{ icon: "gitlab", label: "GitLab", href: "https://github.com" }],
@@ -27,7 +28,6 @@ export default defineConfig({
           collapsed: true,
         },
       ],
-      
     }),
   ],
 });

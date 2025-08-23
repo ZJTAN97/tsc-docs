@@ -2,7 +2,7 @@
 title: Micro-Frontend
 ---
 
-## Why Micro Frontend?
+## Introduction to Micro-Frontend
 
 A microfrontend is a software architecture design pattern where the user interface (UI) of a web application is broken down into smaller, self-contained modules called micro frontends.
 Each microfrontend is responsible for rendering a specific section or feature of the overall UI, and these modules can be developed, tested, and deployed independently by different teams, often using different technologies or frameworks such as React, Vue, or Angular.
@@ -15,12 +15,32 @@ Regardless of the approach we take, one important rule is applicable: each micro
 
 The type of split may come determined by the level of encapsulation, security, independent deployability and need for a consistent UI, requirements.
 
-This architectural pattern is adopted by TSC due to the nature of the product landscape where various teams deliver onto the same Frontend Platform and there is a need to work and scale independently.
+## Why Micro-Frontend?
+
+TSC has adopted this architectural approach in response to the collaborative nature of our platform, where multiple teams deliver features to the same Frontend environment. The Micro-Frontend model empowers teams to scale independently, reduce coupling, and iterate faster without being hindered by cross-team dependencies.
+
+By structuring our implementation this way, we align our technical strategy with the way our teams already operate—distributed, specialized, and highly collaborative. This creates a more modular and resilient frontend architecture that can evolve sustainably as we grow.
+
+Primary benefits include:
+
+- Independent scalability, development, and deployment, mitigating dependency risks and release bottlenecks.
+
+- Clear fault isolation and maintainability, with reduced complexity across services.
+
+- Flexibility in technology choices, enabling teams to adopt the best tools and frameworks for their domain.
+
+This ensures a more robust, future-proof architecture that supports both rapid innovation and long-term stability.
 
 ## Vertical Split
 
-When we break down a monolithic frontend or design a composable system from the start, one approach is to split it into multiple standalone applications, each accessible through a different URL. This is known as a vertical split.
+Vertical splits are especially effective in scenarios where an application spans distinct domains that differ significantly in functionality, performance requirements, deployment frequency, and ownership. By treating each domain as a standalone application, teams gain:
 
-Vertical splits are particularly useful when a large application contains sections (or domains) with entirely different requirements, release cycles, and independent development teams. In such cases, separating them into distinct applications allows for greater autonomy and scalability.
+- Independent deployment pipelines — enabling faster, domain-specific release cycles without risking regressions in unrelated areas.
 
-This is precisely the use case for TSC.
+- Clear ownership boundaries — mapping application boundaries directly to team responsibilities, reducing coordination overhead.
+
+- Optimized technology choices — allowing different domains to evolve with frameworks, libraries, or infrastructure best suited to their specific needs.
+
+- Improved scalability and resilience — since traffic, load, and failures in one domain do not affect other independently served sections.
+
+This model directly applies to TSC: entire sections of the platform operate with distinct requirements, release cadences, and development teams. Adopting vertical splits ensures each domain can scale, iterate, and evolve independently, while still integrating into a cohesive system at the platform level.

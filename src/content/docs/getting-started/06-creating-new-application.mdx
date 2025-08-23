@@ -15,22 +15,10 @@ This guide assumes that you have already cloned our repository and also setup `p
 Using NX React Generator, generate your application under `apps/`
 
 <FileTree>
-  - **apps** 
-    - entity-dossier 
-    - search 
-    - workspace 
-    - digital-production -
-    **generate your new app here** 
-  - libs 
-    - tsc-components 
-    - tsc-utils 
-  - package.json 
-  - tsconfig.base.json 
-  - .gitignore 
-  - pnpm-lock.yaml 
-  - README.md 
-  -nx.json 
-  - biome.json
+  - **apps** - entity-dossier - search - workspace - digital-production -
+  **generate your new app here** - libs - tsc-components - tsc-utils -
+  package.json - tsconfig.base.json - .gitignore - pnpm-lock.yaml - README.md
+  -nx.json - biome.json
 </FileTree>
 
 You may use the following command
@@ -50,29 +38,11 @@ Linter and E2E Tests are set to none, please refer to the docs for [Biome]() and
 Upon running the commands, you will end up with the following structure
 
 <FileTree>
-  - **apps** 
-    - entity-dossier 
-    - search 
-    - workspace 
-    - digital-production 
-    - YOUR_CREATED_APP 
-      - public 
-      - src 
-      - index.html 
-      - tsconfig.app.json
-      - tsconfig.json 
-      - tsconfig.spec.json 
-      - vite.config.ts 
-- libs
-  - tsc-components 
-  - tsc-utils 
-- package.json 
-- tsconfig.base.json 
-- .gitignore
-- pnpm-lock.yaml 
-- README.md 
-- nx.json 
-- biome.json
+  - **apps** - entity-dossier - search - workspace - digital-production -
+  YOUR_CREATED_APP - public - src - index.html - tsconfig.app.json -
+  tsconfig.json - tsconfig.spec.json - vite.config.ts - libs - tsc-components -
+  tsc-utils - package.json - tsconfig.base.json - .gitignore - pnpm-lock.yaml -
+  README.md - nx.json - biome.json
 </FileTree>
 
 ## 2. Vite Configurations
@@ -340,13 +310,25 @@ By properly configuring the commands, NX can automatically infer the tasks avail
     "dev": "vite dev",
     "build": "vite build",
     "lint": "biome lint",
-    "lint:fix": "biome lint --fix",
+    "lint:fix": "biome lint --fix"
   },
   "dependencies": {
-   // ...
+    // ...
   },
   "devDependencies": {
-  // ...
+    // ...
   }
 }
 ```
+
+## 8. TanStack Router
+
+- to be updated
+
+## 8. Mantine
+
+- to be updated
+
+## 9. TanStack Query
+
+- to be updated
